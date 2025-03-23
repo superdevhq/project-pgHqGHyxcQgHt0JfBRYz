@@ -16,16 +16,16 @@ interface SearchFiltersProps {
   onSearch: (filters: {
     query: string;
     location: string;
-    locationType: JobLocation | '';
-    jobType: JobType | '';
+    locationType: JobLocation | null;
+    jobType: JobType | null;
   }) => void;
 }
 
 const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState('');
-  const [locationType, setLocationType] = useState<JobLocation | ''>('');
-  const [jobType, setJobType] = useState<JobType | ''>('');
+  const [locationType, setLocationType] = useState<JobLocation | null>(null);
+  const [jobType, setJobType] = useState<JobType | null>(null);
 
   const handleSearch = () => {
     onSearch({
@@ -39,13 +39,13 @@ const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
   const handleReset = () => {
     setQuery('');
     setLocation('');
-    setLocationType('');
-    setJobType('');
+    setLocationType(null);
+    setJobType(null);
     onSearch({
       query: '',
       location: '',
-      locationType: '',
-      jobType: '',
+      locationType: null,
+      jobType: null,
     });
   };
 
@@ -72,24 +72,28 @@ const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
           />
         </div>
         
-        <Select value={locationType} onValueChange={(value) => setLocationType(value as JobLocation)}>
+        <Select 
+          value={locationType || undefined} 
+          onValueChange={(value) => setLocationType(value as JobLocation)}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Location Type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Any Location Type</SelectItem>
             <SelectItem value="Remote">Remote</SelectItem>
             <SelectItem value="Hybrid">Hybrid</SelectItem>
             <SelectItem value="On-site">On-site</SelectItem>
           </SelectContent>
         </Select>
         
-        <Select value={jobType} onValueChange={(value) => setJobType(value as JobType)}>
+        <Select 
+          value={jobType || undefined} 
+          onValueChange={(value) => setJobType(value as JobType)}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Job Type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Any Job Type</SelectItem>
             <SelectItem value="Full-time">Full-time</SelectItem>
             <SelectItem value="Part-time">Part-time</SelectItem>
             <SelectItem value="Contract">Contract</SelectItem>
